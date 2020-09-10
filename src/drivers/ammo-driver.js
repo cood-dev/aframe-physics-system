@@ -108,12 +108,29 @@ AmmoDriver.prototype.step = function(deltaTime) {
         this.collisionKeys.push(body0ptr);
       }
       if (this.collisions.get(body0ptr).indexOf(body1ptr) === -1) {
+        //see ex : https://gist.github.com/BlueMagnificent/0fb065875beb1e310b39f2fdef4c4d76
+        // https://medium.com/@bluemagnificent/collision-detection-in-javascript-3d-physics-using-ammo-js-and-three-js-31a5569291ef
+        const worldPos0 = manifoldPoint.get_m_positionWorldOnA();
+        const worldPos1 = manifoldPoint.get_m_positionWorldOnB();
+        const localPos0 = manifoldPoint.get_m_localPointA();
+        const localPos1 = manifoldPoint.get_m_localPointB();
+
         this.collisions.get(body0ptr).push(body1ptr);
         if (this.eventListeners.indexOf(body0ptr) !== -1) {
-          this.els.get(body0ptr).emit("collidestart", { targetEl: this.els.get(body1ptr) });
+          // this.els.get(body0ptr).emit("collidestart", { targetEl: this.els.get(body1ptr) });
+          this.els.get(body0ptr).emit("collidestart", { 
+            targetEl: this.els.get(body1ptr),
+            worldPos: {x: worldPos0.x(), y: worldPos0.y(), z: worldPos0.z()},
+            localPos: {x: localPos0.x(), y: localPos0.y(), z: localPos0.z()}
+          });
         }
         if (this.eventListeners.indexOf(body1ptr) !== -1) {
-          this.els.get(body1ptr).emit("collidestart", { targetEl: this.els.get(body0ptr) });
+          // this.els.get(body1ptr).emit("collidestart", { targetEl: this.els.get(body0ptr) });
+          this.els.get(body1ptr).emit("collidestart", { 
+            targetEl: this.els.get(body0ptr),
+            worldPos: {x: worldPos1.x(), y: worldPos1.y(), z: worldPos1.z()},
+            localPos: {x: localPos1.x(), y: localPos1.y(), z: localPos1.z()}
+          });
         }
       }
       if (!this.currentCollisions.has(body0ptr)) {
