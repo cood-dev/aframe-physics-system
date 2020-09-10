@@ -1,4 +1,4 @@
-> NOTICE: This project is unmaintained, but [available for adoption](https://www.donmccurdy.com/2020/09/06/projects-up-for-adoption/).
+> NOTICE: We do a Fork for modify informations given to entities when we emit event
 
 # Physics for A-Frame VR
 
