@@ -92,9 +92,10 @@ AmmoDriver.prototype.step = function(deltaTime) {
     const body0ptr = Ammo.getPointer(persistentManifold.getBody0());
     const body1ptr = Ammo.getPointer(persistentManifold.getBody1());
     let collided = false;
-
+    let manifoldPoint;
+    
     for (let j = 0; j < numContacts; j++) {
-      const manifoldPoint = persistentManifold.getContactPoint(j);
+      manifoldPoint = persistentManifold.getContactPoint(j);
       const distance = manifoldPoint.getDistance();
       if (distance <= this.epsilon) {
         collided = true;
